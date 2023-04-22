@@ -4,9 +4,13 @@ import ConverterForm from "./components/converterForm";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App app-bg-image">
       <Navbar />
-      <ConverterForm />
+      <section className="container px-3">
+        <div className="mx-auto text-align-center">
+          <ConverterForm />
+        </div>
+      </section>
     </div>
   );
 }
