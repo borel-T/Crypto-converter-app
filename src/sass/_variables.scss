@@ -1,0 +1,23 @@
+$color_white: #ffff;
+$color_primary: #9747ff;
+$color_secondary: #3a2549;
+$color_dark: #0a000d;
+$color_black: #11011e;
+$color_f5: #f5f5f5;
+
+// colors array
+$colors: (
+  "white": $color_white,
+  "primary": $color_primary,
+  "secondary": $color_secondary,
+  "dark": $color_dark,
+  "black": $color_black,
+  "f5": $color_f5,
+);
+
+// text colors
+@each $item, $color in $colors {
+  .color-#{$item} {
+    color: map-get($colors, $item);
+  }
+}

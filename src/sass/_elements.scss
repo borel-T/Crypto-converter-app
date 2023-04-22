@@ -1,0 +1,29 @@
+html {
+  body {
+    font-family: "Outfit", Helvetica, sans-serif, -apple-system;
+    color: $color_dark;
+    margin: 0 !important;
+    background-color: $color_black;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h5,
+  p,
+  li,
+  a,
+  button {
+    font-family: "Outfit", Helvetica, sans-serif, -apple-system;
+  }
+
+  .app-bg-image {
+    background-size: cover;
+    display: block;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    background-image: url("../assets/images/app-background.png");
+  }
+}

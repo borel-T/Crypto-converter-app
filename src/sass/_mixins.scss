@@ -1,0 +1,18 @@
+// font mixin
+@mixin font($family, $style: false, $weight: false) {
+  @if $family {
+    font-family: $family;
+  } @else {
+    font-family: sans-serif;
+  }
+  @if $style {
+    font-style: $style;
+  } @else {
+    font-style: normal;
+  }
+  @if $weight {
+    font-weight: $weight;
+  } @else {
+    font-weight: normal;
+  }
+}
