@@ -7,6 +7,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
+import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 // api
 import apiService from "../../api";
@@ -16,25 +17,39 @@ import _ from "lodash";
 function ConverterForm() {
   // states
   const [cashAmount, setCashAmount] = useState("");
-  const [expectedCash, setExpectedCash] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [transferFee, setTransferFee] = useState(0);
+  const [transferAmount, setTransferAmount] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [calcLoading, setCalcLoading] = useState(false);
   const [cryptos, setCryptos] = useState([]);
-  const [dividend, setDividend] = useState(CRYPTOS[0]);
-  const [divisor, setDivisor] = useState(CRYPTOS[1]);
+  const [dividend, setDividend] = useState("");
+  const [divisor, setDivisor] = useState("");
 
-  // Init form
+  // initialize form
   useEffect(() => {
     _fetchCryptos();
   }, []);
 
+  // fetch-cryptos
   const _fetchCryptos = () => {
+    setLoading(true);
     apiService
       .getCurrencies()
       .then((res) => {
-        setCryptos(CRYPTOS);
+        let list = res.data.currencies;
+        if (!_.isEmpty(list)) {
+          console.log("API-cryptos->");
+          setDividend(list[0]); // set divisor initial state
+          setDivisor(list[1]); // set divisor initial state
+          setCryptos(list); // populate crypto list
+        } else {
+          console.log("Local-cryptos->");
+          setCryptos(CRYPTOS);
+        }
       })
       .catch((error) => {
         setCryptos(CRYPTOS);
+        console.log("fetch-cryptos-error->", error);
       })
       .finally(() => {
         setLoading(false);
@@ -43,38 +58,52 @@ function ConverterForm() {
 
   // convert-currency
   const _convertCurrency = () => {
-    let data = {
-      cashAmount,
-      dividend: dividend.id,
-      divisor: divisor.id,
-    };
-    if (!_.isEmpty(cashAmount)) {
+    // let
+    let userCash = parseFloat(cashAmount);
+
+    if (userCash > 0) {
+      // prepare payload
+      let data = {
+        cashAmount: userCash,
+        dividend: dividend.id,
+        divisor: divisor.id,
+      };
+      // loader
+      setCalcLoading(true);
+      // call api
       apiService
         .getAmount(data)
         .then((res) => {
           // updated expected transfer amount
-          setExpectedCash(res.data.amount);
+          console.log("get-amount::--->", res.data);
+          let transAmt = parseFloat(res.data.amount).toFixed(4);
+          let transFee = parseFloat(res.data.fee).toFixed(4);
+          setTransferAmount(transAmt); // amount to transfer
+          setTransferFee(transFee); // fee to transfer
         })
         .catch((error) => {
           console.log("get-amount-error", error);
+        })
+        .finally(() => {
+          setCalcLoading(false);
         });
     }
   };
 
-  // swap coins
+  // swap-coins-fields
   const _swapCoins = () => {
     let swap = dividend;
     // swap dividend and divisor
     setDivisor(swap);
     setDividend(divisor);
-    // update conversion
+    // update transfer amount
     _convertCurrency();
   };
 
-  // handle submit
+  // handle-submit
   const _handleSubmit = (e) => {
     e.preventDefault();
-    alert("Convertion....");
+    alert("Send....");
   };
 
   return (
@@ -84,65 +113,10 @@ function ConverterForm() {
       </h1>
       <form className="converter-form" onSubmit={_handleSubmit}>
         <div className="container">
-          {/* TOKEN */}
-          <div className="row mb-4 text-center">
-            <div className="col-2">
-              <span className="title color-primary">Token</span>
-            </div>
-            <div className="col-6">
-              <Autocomplete
-                disableClearable
-                loading={loading}
-                value={dividend}
-                onChange={(event, val) => {
-                  setDividend(val);
-                }}
-                isOptionEqualToValue={(option) => option.id}
-                options={cryptos}
-                getOptionLabel={(option) => option.id}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    variant="standard"
-                    InputProps={{
-                      ...params.InputProps,
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <img
-                            loading="lazy"
-                            width="20"
-                            src={`${dividend.image}`}
-                            alt="icon"
-                          />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                )}
-                renderOption={(props, option) => {
-                  return (
-                    <Box
-                      component="li"
-                      value={option.id}
-                      key={option.id}
-                      {...props}
-                    >
-                      <img
-                        loading="lazy"
-                        width="20"
-                        src={`${option.image}`}
-                        alt="icon"
-                      />
-                      <span className={"ms-2"}>{option.id}</span>
-                    </Box>
-                  );
-                }}
-              />
-            </div>
-          </div>
+          <p className="title color-primary mb-4 fs-4">Token</p>
 
           {/* TOP-COIN */}
-          <div className="swap-field mb-3 ">
+          <div className="swap-field">
             <span className="label">From</span>
             {/* field-section */}
             <div className="row align-items-center">
@@ -154,10 +128,13 @@ function ConverterForm() {
                   value={dividend}
                   onChange={(event, val) => {
                     setDividend(val);
+                    _convertCurrency();
                   }}
-                  isOptionEqualToValue={(option) => option.id}
+                  isOptionEqualToValue={(option) =>
+                    option.id ? option.id : ""
+                  }
                   options={cryptos}
-                  getOptionLabel={(option) => option.id}
+                  getOptionLabel={(option) => (option.id ? option.id : "")}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -204,10 +181,13 @@ function ConverterForm() {
                   style={{ paddingTop: 20 }}
                   value={cashAmount}
                   type={"number"}
-                  placeholder="Enter amount"
+                  autoComplete="false"
+                  placeholder="Enter amount to send"
                   variant="standard"
                   helperText={"At least 0.005"}
-                  onBlur={_convertCurrency}
+                  onBlur={() => {
+                    _convertCurrency();
+                  }}
                   onChange={(e) => setCashAmount(e.target.value)}
                   InputProps={{
                     inputProps: {
@@ -215,7 +195,12 @@ function ConverterForm() {
                     },
                   }}
                   FormHelperTextProps={{
-                    style: { textAlign: "right", fontSize: 14 },
+                    style: {
+                      textAlign: "right",
+                      fontSize: 14,
+                      color: "red",
+                      fontWeight: "bold",
+                    },
                   }}
                 />
               </div>
@@ -231,22 +216,25 @@ function ConverterForm() {
 
           {/* DOWN_COIN */}
           <div className="swap-field mb-3 ">
-            {/* label */}
-            <span className="label">To</span>
             {/* field-section */}
             <div className="row align-items-center">
               {/* field */}
               <div className="col-6">
+                {/* label */}
+                <span className="label d-block mb-3">To</span>
                 <Autocomplete
                   disableClearable
                   loading={loading}
                   value={divisor}
                   onChange={(event, val) => {
                     setDivisor(val);
+                    _convertCurrency();
                   }}
-                  isOptionEqualToValue={(option) => option.id}
+                  isOptionEqualToValue={(option) =>
+                    option.id ? option.id : ""
+                  }
                   options={cryptos}
-                  getOptionLabel={(option) => option.id}
+                  getOptionLabel={(option) => (option.id ? option.id : "")}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -286,10 +274,20 @@ function ConverterForm() {
                   }}
                 />
               </div>
-              {/* expected-cash */}
+              {/* transfer-cash */}
               <div className="col-6">
-                <p style={{ textAlign: "right" }} className="fs-5 mb-0 me-3">
-                  {expectedCash}
+                <span className="label d-block text-end mb-3 me-3 text-">
+                  Fee
+                </span>
+                <p
+                  style={{ textAlign: "right" }}
+                  className="fs-5 mb-0 me-3 fw-bold"
+                >
+                  {!calcLoading ? (
+                    <span>{transferAmount}</span>
+                  ) : (
+                    <CircularProgress size={15} color="secondary" />
+                  )}
                 </p>
               </div>
             </div>
@@ -298,8 +296,11 @@ function ConverterForm() {
           {/* CONVERT-BUTTON */}
           <Button text="Send" type="submit" />
 
-          {/* NOTICE */}
-          <p className="text-center fs-6 fw-bold pt-4">Commission - N</p>
+          {/* transfer-fee */}
+          <p className="text-center fs-3 pt-4">
+            {`Commission - `}
+            <span className="ms-2 fw-bold">{transferFee}</span>
+          </p>
         </div>
       </form>
     </div>
