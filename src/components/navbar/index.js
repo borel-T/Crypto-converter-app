@@ -8,9 +8,9 @@ function Navbar() {
   };
 
   return (
-    <nav class="navbar  sticky-top justify-content-between app-navbar">
+    <nav className="navbar  sticky-top justify-content-between app-navbar">
       <div className="container">
-        <div class="app-logo" />
+        <div className="app-logo" />
         <Button
           text="Connect wallet"
           styling="fancy"
