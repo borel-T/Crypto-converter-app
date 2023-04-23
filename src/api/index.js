@@ -13,7 +13,7 @@ function getCurrencies() {
 function getAmount(data) {
   let path = GET_AMOUNT;
   let payload = {
-    sum: parseInt(data.cashAmount),
+    sum: data.cashAmount,
     divider_coin_id: data.dividend,
     dividend_coin_id: data.divisor,
   };

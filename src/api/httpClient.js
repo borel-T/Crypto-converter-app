@@ -98,7 +98,6 @@ export function getRequest(path, params = {}, customConfig = {}) {
 
 // Axios HTTTP POST Request
 export function postRequest(path, data = {}, customConfig = {}) {
-  console.log("data :::", data);
   // set-up config
   let axiosConfig = { ...defaultConfig, ...customConfig };
 
