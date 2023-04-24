@@ -1,6 +1,6 @@
 FROM node:16-alpine3.16
 
-WORKDIR /paybits-app
+WORKDIR /orbiter-app
 
 COPY package*.json ./
 

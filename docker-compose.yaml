@@ -2,7 +2,7 @@ version: "3.8"
 services:
   react-app:
     build: .
-    image: paybits
-    container_name: paybits_c
+    image: orbiter
+    container_name: orbiter_c
     ports:
       - "4000:4000"
