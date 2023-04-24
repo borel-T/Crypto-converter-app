@@ -3,8 +3,27 @@ html {
     font-family: "Outfit", Helvetica, sans-serif, -apple-system;
     color: $color_dark;
     margin: 0 !important;
-    background-color: $color_black;
+
+    // header-main-footer layout
+    min-height: 100vh;
+    margin: 0;
+
+    display: grid;
+    grid-template-rows: auto 1fr auto;
   }
+
+  header {
+    min-height: 50px;
+  }
+  main {
+    min-height: 300px;
+  }
+  footer {
+    min-height: 50px;
+    padding-bottom: 15px;
+  }
+
+  // typography
   h1,
   h2,
   h3,

@@ -1,7 +1,22 @@
 .app-logo {
-  height: 40px;
-  width: 185px;
-  background-image: url("../assets/images/logo.png");
-  background-repeat: no-repeat;
-  background-size: contain;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+
+  .logo {
+    height: 40px;
+    width: 40px;
+    display: block;
+    background-image: url("../assets/images/logo.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  .brand-name {
+    font-size: 24px;
+    font-weight: bold;
+    color: $color_black;
+    font-size: "wolf sans regular";
+    text-decoration: none;
+  }
 }

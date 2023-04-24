@@ -1,4 +1,36 @@
 .app-navbar {
-  background-color: $color_dark;
+  background-color: $color_white;
   position: sticky;
+
+  .navlink {
+    color: $color_dark;
+    text-decoration: none;
+    position: relative;
+    margin: 0 15px;
+    transition: all ease 0.5s;
+    font-weight: bold;
+
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      background: $color_white;
+      height: 5px;
+      width: 0%;
+      left: 0;
+      right: 0;
+      transition: width ease 0.5s;
+    }
+  }
+  .navlink:hover {
+    color: $color_black;
+  }
+  .navlink.isActive {
+    font-weight: bold;
+    color: $color_black;
+    &::after {
+      background: $color_primary;
+      width: 100%;
+    }
+  }
 }

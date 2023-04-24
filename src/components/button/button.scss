@@ -5,7 +5,7 @@
   height: 40px;
   width: 100%;
   color: $color_white;
-  background: $color_secondary;
+  background: linear-gradient(90.46deg, #eb382d 4.07%, #bc3035 98.55%);
   position: relative;
 }
 
@@ -25,22 +25,22 @@
   background: conic-gradient(
     from 179.78deg at 50% 50%,
     rgba(255, 255, 255, 0.07) -54.98deg,
-    #6700ff 52.13deg,
+    #eb382d 52.13deg,
     rgba(255, 255, 255, 0.04) 125.06deg,
-    #ffffff 235.09deg,
+    #c77474 235.09deg,
     rgba(255, 255, 255, 0.07) 305.02deg,
-    #6700ff 412.13deg
+    #eb382d 412.13deg
   );
 
   &:hover {
     background: conic-gradient(
       from -54.98deg at 50% 50%,
       rgba(255, 255, 255, 0.07) -54.98deg,
-      #6700ff 52.13deg,
+      #eb382d 52.13deg,
       rgba(255, 255, 255, 0.04) 125.06deg,
-      #ffffff 235.09deg,
+      #c77474 235.09deg,
       rgba(255, 255, 255, 0.07) 305.02deg,
-      #6700ff 412.13deg
+      #eb382d 412.13deg
     );
 
     // bg-shadow effects
@@ -54,13 +54,13 @@
       bottom: 0;
       left: 0;
       background: conic-gradient(
-        from 179.78deg at 50% 50%,
+        from 179.78deg at 100% 100%,
         rgba(255, 255, 255, 0.07) -54.98deg,
-        #6700ff 52.13deg,
+        #eb382d 52.13deg,
         rgba(255, 255, 255, 0.04) 125.06deg,
-        #ffffff 235.09deg,
+        #c77474 235.09deg,
         rgba(255, 255, 255, 0.07) 305.02deg,
-        #6700ff 412.13deg
+        #eb382d 412.13deg
       );
       transform: translate3d(0px, 0px, 10) scale(0.45);
       filter: blur(20px);
@@ -72,12 +72,12 @@
   // overwtite app button default style
   .app-button {
     height: 100%;
-    background: $color_dark;
+    background: $color_primary;
   }
 }
 
 .converter-wrapper {
-  padding: 80px 0 100px 0;
+  padding: 40px 0 100px 0;
 
   .converter-form {
     background-color: $color_white;
