@@ -33,16 +33,6 @@
   );
 
   &:hover {
-    background: conic-gradient(
-      from -54.98deg at 50% 50%,
-      rgba(255, 255, 255, 0.07) -54.98deg,
-      #eb382d 52.13deg,
-      rgba(255, 255, 255, 0.04) 125.06deg,
-      #c77474 235.09deg,
-      rgba(255, 255, 255, 0.07) 305.02deg,
-      #eb382d 412.13deg
-    );
-
     // bg-shadow effects
     &:before {
       content: "";
