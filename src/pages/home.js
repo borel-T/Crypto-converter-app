@@ -13,6 +13,9 @@ import Box from "@mui/material/Box";
 import apiService from "../api";
 // utils
 import _ from "lodash";
+// icons
+import alienIcon from "../assets/images/alien.png";
+import clockIcon from "../assets/images/clock-solid.svg";
 
 function ConverterForm() {
   // states
@@ -44,11 +47,16 @@ function ConverterForm() {
           setCryptos(list); // populate crypto list
         } else {
           console.log("Local-cryptos->");
+          setDividend(CRYPTOS[0]);
+          setDivisor(CRYPTOS[1]);
           setCryptos(CRYPTOS);
         }
       })
       .catch((error) => {
+        setDividend(CRYPTOS[0]);
+        setDivisor(CRYPTOS[1]);
         setCryptos(CRYPTOS);
+
         console.log("fetch-cryptos-error->", error);
       })
       .finally(() => {
@@ -107,18 +115,14 @@ function ConverterForm() {
   };
 
   return (
-    <div className="converter-wrapper">
-      <h1 className="color-primary text-left text-md-center pb-2 pb-md-3 mb-0">
-        Converter
-      </h1>
-
+    <div className="converter-wrapper mt-4">
       <form className="converter-form shadow-lg" onSubmit={_handleSubmit}>
         <div className="container">
           <p className="title color-primary mb-4 fs-4">Token</p>
 
           {/* TOP-COIN */}
           <div className="swap-field">
-            <span className="label">From</span>
+            <span className="label mb-3 d-block">From</span>
             {/* field-section */}
             <div className="row align-items-center">
               {/* field */}
@@ -135,13 +139,15 @@ function ConverterForm() {
                     option.id ? option.id : ""
                   }
                   options={cryptos}
-                  getOptionLabel={(option) => (option.id ? option.id : "")}
+                  getOptionLabel={(option) => (option.name ? option.name : "")}
                   renderInput={(params) => (
                     <TextField
                       {...params}
                       variant="standard"
                       InputProps={{
                         ...params.InputProps,
+                        disableUnderline: true,
+                        style: { fontSize: 20 },
                         startAdornment: (
                           <InputAdornment position="start">
                             <img
@@ -179,18 +185,18 @@ function ConverterForm() {
               <div className="col-6">
                 <TextField
                   id="amount-input"
-                  style={{ paddingTop: 20 }}
                   value={cashAmount}
                   type={"number"}
                   autoComplete="false"
-                  placeholder="Enter amount to send"
+                  placeholder="At least 0.005"
                   variant="standard"
-                  helperText={"At least 0.005"}
                   onBlur={() => {
                     _convertCurrency();
                   }}
                   onChange={(e) => setCashAmount(e.target.value)}
                   InputProps={{
+                    disableUnderline: true,
+                    style: { fontSize: 20 },
                     inputProps: {
                       style: { textAlign: "right" },
                     },
@@ -199,7 +205,7 @@ function ConverterForm() {
                     style: {
                       textAlign: "right",
                       fontSize: 14,
-                      color: "red",
+
                       fontWeight: "bold",
                     },
                   }}
@@ -235,13 +241,15 @@ function ConverterForm() {
                     option.id ? option.id : ""
                   }
                   options={cryptos}
-                  getOptionLabel={(option) => (option.id ? option.id : "")}
+                  getOptionLabel={(option) => (option.name ? option.name : "")}
                   renderInput={(params) => (
                     <TextField
                       {...params}
                       variant="standard"
                       InputProps={{
                         ...params.InputProps,
+                        disableUnderline: true,
+                        style: { fontSize: 20 },
                         startAdornment: (
                           <InputAdornment position="start">
                             <img
@@ -282,7 +290,7 @@ function ConverterForm() {
                 </span>
                 <p
                   style={{ textAlign: "right" }}
-                  className="fs-5 mb-0 me-3 fw-bold"
+                  className="fs-4 mb-0 me-3 fw-bold"
                 >
                   {!calcLoading ? (
                     <span>{transferAmount}</span>
@@ -295,12 +303,28 @@ function ConverterForm() {
           </div>
 
           {/* CONVERT-BUTTON */}
-          <Button text="Send" type="submit" />
+          <Button text="SEND" type="submit" />
+        </div>
 
-          {/* transfer-fee */}
-          <p className="text-center fs-3 pt-4">
-            {`Commission - `}
-            <span className="ms-2 fw-bold">{transferFee}</span>
+        {/* test */}
+        <div className="ms-3 mt-4">
+          <p className="d-flex align-items-center gas-fee">
+            <img
+              className="me-2"
+              style={{ height: 20, width: 20 }}
+              src={alienIcon}
+            ></img>
+            <span> Gas Fee Saved |</span>
+            <span className="ms-2 color-primary fw-bold">Save 0.7 - 2.25$</span>
+          </p>
+          <p className="d-flex align-items-center gas-fee">
+            <img
+              className="me-2"
+              style={{ height: 16, width: 16 }}
+              src={clockIcon}
+            ></img>
+            <span>Time spend 45s |</span>
+            <span className="ms-2 color-primary fw-bold">Save 10 Min</span>
           </p>
         </div>
       </form>

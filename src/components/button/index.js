@@ -7,7 +7,7 @@ function Button({ text = "", type = "button", styling = "", onClick = null }) {
   if (styling === "fancy") {
     return (
       <div className="app-button-fancy">
-        <button className="app-button" onClick={onClick} type={type}>
+        <button className="app-button fw-bold" onClick={onClick} type={type}>
           {text}
         </button>
       </div>
