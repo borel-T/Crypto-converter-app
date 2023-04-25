@@ -175,7 +175,7 @@ function ConverterForm() {
                           src={`${option.image}`}
                           alt="icon"
                         />
-                        <span className={"ms-2"}>{option.id}</span>
+                        <span className={"ms-2"}>{option.name}</span>
                       </Box>
                     );
                   }}
@@ -277,7 +277,7 @@ function ConverterForm() {
                           src={`${option.image}`}
                           alt="icon"
                         />
-                        <span className={"ms-2"}>{option.id}</span>
+                        <span className={"ms-2"}>{option.name}</span>
                       </Box>
                     );
                   }}
