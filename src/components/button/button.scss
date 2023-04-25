@@ -2,11 +2,16 @@
 %button-default {
   border-radius: 20px;
   border: none;
-  height: 40px;
+  min-height: 40px;
   width: 100%;
+  font-size: 24px;
   color: $color_white;
   background: linear-gradient(90.46deg, #eb382d 4.07%, #bc3035 98.55%);
   position: relative;
+
+  @media (max-width: 650px) {
+    font-size: 16px;
+  }
 }
 
 // regular button
@@ -18,9 +23,12 @@
 .app-button-fancy {
   @extend %button-default;
   padding: 2px;
-  height: 40px;
-  max-width: 150px;
+  max-width: 210px;
   z-index: 0;
+
+  @media (max-width: 280px) {
+    font-size: 12px;
+  }
 
   background: conic-gradient(
     from 179.78deg at 50% 50%,
